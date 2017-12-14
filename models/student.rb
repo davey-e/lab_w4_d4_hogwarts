@@ -1,5 +1,6 @@
 require('pry-byebug')
 require_relative('../db/sql_runner.rb')
+require_relative('house.rb')
 
 class Student
 
@@ -28,6 +29,15 @@ class Student
     values = [@id]
     student_hash = SqlRunner.run(sql, values).first()
     return Student.new(student_hash)
+  end
+
+  def house()
+    sql = "select houses.* from houses
+    inner join students on students.house_id = houses.id
+    where students.id = $1;"
+    values = [@id]
+    house_hash = SqlRunner.run(sql, values).first()
+    return House.new(house_hash)
   end
 
   def self.delete_all()
