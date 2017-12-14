@@ -26,6 +26,14 @@ class House
     return House.new(house_hash)
   end
 
+  def self.find_by_name(name)
+    sql = "SELECT * from houses
+    WHERE name = $1"
+    values = [name]
+    house_hash = SqlRunner.run(sql, values).first()
+    return House.new(house_hash)
+  end
+
   def self.delete_all()
     sql = "DELETE FROM houses;"
     SqlRunner.run(sql)
