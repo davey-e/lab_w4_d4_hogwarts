@@ -21,4 +21,26 @@ class Student
     student = SqlRunner.run(sql, values).first
     @id = student['id'].to_i
   end
+
+  def find()
+    sql = "SELECT * FROM students
+    WHERE id = $1;"
+    values = [@id]
+    student_hash = SqlRunner.run(sql, values).first()
+    return Student.new(student_hash)
+  end
+
+  def self.delete_all()
+    sql = "DELETE FROM students;"
+    SqlRunner.run(sql)
+  end
+
+  def self.all()
+    sql = "SELECT * FROM students;"
+    student_hashes = SqlRunner.run(sql)
+    result = student_hashes.map {|student| Student.new(student)}
+    return result
+  end
+
+
 end
